@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+	<style type="text/css">
+		ul{
+			margin: 20px auto 0;
+			padding: 0;
+			width: 600px;
+		}
+		li{
+			list-style-type: none;
+			float: left;
+			width: 280px;
+			margin: 0 10px;
+			position: relative;
+			height: 120px;
+			overflow: hidden;
+		}
+		img{
+			height: 100px;
+			width: 280px;
+			vertical-align: top;
+		}
+		div{
+			position: absolute;
+			top:0;
+		}
+	</style>
+	<script type="text/javascript" src="js/tween.js"></script>
+	<script type="text/javascript" src="js/mTween.js"></script>
+</head>
+
+<body>
+	<ul>
+		<li>
+			<div><img src="img/1.jpg" alt=""><img src="img/2.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/3.jpg" alt=""><img src="img/4.jpg" alt=""><img src="img/6.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/5.jpg" alt=""><img src="img/6.jpg" alt=""><img src="img/7.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/7.jpg" alt=""><img src="img/8.jpg" alt=""><img src="img/5.jpg" alt=""><img src="img/1.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/2.jpg" alt=""><img src="img/1.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/4.jpg" alt=""><img src="img/3.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/8.jpg" alt=""><img src="img/7.jpg" alt=""></div>
+		</li>
+		<li>
+			<div><img src="img/6.jpg" alt=""><img src="img/5.jpg" alt=""></div>
+		</li>
+	</ul>
+	<script type="text/javascript">
+		var divs = getName('div');
+		var imgs = getName('img',divs[0]);
+		var height = parseInt(getComputedStyle(imgs[0]).height);
+		
+
+		for (var i = 0; i < divs.length; i++) {
+			imgs = getName('img',divs[i]);
+			divs[i].num = 0;
+			divs[i].n = 1;
+			fn(divs[i],imgs.length);
+		};
+
+
+		function fn(obj,len){
+			setTimeout(function() {
+				obj.num+=obj.n;
+				if(obj.num == len-1){
+					obj.n = -1;
+				}
+				if(obj.num == 0){
+					obj.n = 1;
+				}
+				mTween(obj,'top',-obj.num*height,500,'linear',function(){
+					fn(obj,len);
+				})
+			}, Math.random()*2000+1000);
+
+		}
+
+		function getName(tagName,ele){
+			return (ele||document).getElementsByTagName(tagName)
+		}
+	</script>
+</body>
+</html>

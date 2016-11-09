@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		li{
+			list-style: none;
+			cursor: pointer;
+		}
+		ul{
+			margin: 0;
+			padding: 0;
+		}
+		#box{
+			border: 5px solid #f7f7f7;
+			width: 800px;
+			height: 360px;
+			margin: 0 auto;
+			overflow: hidden;
+		}
+		#box>ul{
+			width: 100px;
+			height: 100%;
+			float: left;
+		}
+		#box #list li{
+			line-height: 90px;
+			background-color: #000;
+			color: #fff;
+			border-bottom: 1px solid #f7f7f7;
+			text-align: center;
+		}
+		#box #list .active{
+			background-color: red;
+			color: #000;
+		}
+		#box div{
+			width: 700px;
+			height: 100%;
+			position: relative;
+			display: none;			
+			float: left;
+		}
+		#box .block{
+			display: block;
+		}
+		#box div img{
+			width: 100%;
+			height: 100%;
+			display: none;
+		}
+		#box div .block{
+			display: block;
+		}
+		#box div ul{
+			position: absolute;
+			left: 0;
+			bottom: 0;
+		}
+		#box div li{
+			line-height: 30px;
+			float: left;
+			background-color: rgba(0,0,0,.7);
+			color: #fff;
+			border-right: 1px solid #f7f7f7;
+			margin-right: -1px;
+			text-align: center;
+		}
+		#box div .active{
+			background-color: #ef3163;
+			opacity: .7;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<!-- <ul>
+			<li class="active">暖色调</li>
+			<li>暖色调</li>
+			<li>暖色调</li>
+			<li>暖色调</li>
+		</ul>
+		<div>
+			<img src="images/img2.gif" alt="">
+			<ul>
+				<li class="active">暖色键盘</li>
+				<li>暖色键盘</li>
+				<li>暖色键盘</li>
+				<li>暖色键盘</li>
+			</ul>
+		</div> -->
+	</div>
+	<script type="text/javascript">
+		var arr = [
+			[ "暖色调", ["暖色键盘","惬意时光","午后","一杯苦咖啡"],["images/img1.gif","images/img2.gif","images/img3.gif","images/img4.gif"]],
+
+			["金色夕阳",["街边夕阳","金色稻草","一杯苦咖啡"],["images/img5.gif","images/img6.gif","images/img4.gif"]],
+
+			["灰色格调",["灰色通讯","咖啡'配'饼干","孤单键盘","枯树"],["images/img7.gif","images/img8.gif","images/img9.gif","images/img10.gif"]],
+
+			["baby",["baby素材一","baby素材二"],["images/img11.gif","images/img12.gif"]]
+		]; 
+		var boxs = document.getElementById('box');
+		var divs = boxs.getElementsByTagName('div');
+		var sul = '';
+		var sdiv = '';
+		var cons = '';
+		for (var i = 0; i < arr.length; i++) {
+			// 生成list里的li
+			sul += '<li>'+arr[i][0]+'</li>';
+			// 生成div和他里面的ul
+			sdiv += '<div>';
+			for (var j=0;j<arr[i][1].length;j++) {
+				sdiv += '<img src="'+arr[i][2][j]+'"/>'
+			};
+			sdiv += '<ul>';
+			for (var j=0;j<arr[i][1].length;j++) {
+				// 生成ul里面的li
+				sdiv += '<li style="width:'+700/arr[i][1].length+'px;">'+arr[i][1][j]+'</li>'
+			};
+			sdiv += '</ul></div>';
+		}
+		boxs.innerHTML += '<ul id="list"></ul>'+sdiv;
+		var list = document.getElementById('list');
+		list.innerHTML += sul;
+		var lis = list.getElementsByTagName('li');
+		fu(lis,divs);
+		function fu(obj,obg){
+			obg[0].className = 'block';
+			obj[0].className = 'active';
+			for (var i = 0; i < obj.length; i++) {
+				obj[i].index = i;
+				obj[i].onclick = function(){
+					for (var i = 0; i < obj.length; i++) {
+						obj[i].className = '';
+						obg[i].className = '';
+					}
+					this.className = 'active';
+					obg[this.index].className = 'block';
+				};
+			}
+		}
+		// 循环实参
+		for (var i = 0; i < divs.length; i++) {
+			fn(i)
+		}
+		// 设置形参
+		function fn(b){
+			var uls = divs[b].getElementsByTagName('ul')[0];
+			var imgs = divs[b].getElementsByTagName('img');
+			var ulis = uls.getElementsByTagName('li');
+			fu(ulis,imgs);
+		}
+		
+	</script>
+</body>
+</html>
